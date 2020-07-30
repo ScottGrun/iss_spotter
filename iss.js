@@ -27,4 +27,15 @@ const fetchGeoCords = (ip, callback) => {
   });
 };
 
-module.exports = { fetchMyIp, fetchGeoCords };
+fetchFlyOver=(cords, callback)=>{
+  request(`http://api.open-notify.org/iss-pass.json?lat=${cords.lat}&lon=${cords.long}`,(err, res, body)=>{
+    if(err || res.statusCode !== 200){
+      return callback(err, null);
+    }
+
+    const data = JSON.parse(body);
+    return callback(null, data)
+  })
+}
+
+module.exports = { fetchMyIp, fetchGeoCords, fetchFlyOver};

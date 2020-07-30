@@ -1,4 +1,4 @@
-const {fetchMyIp, fetchGeoCords} = require('./iss');
+const {fetchMyIp, fetchGeoCords, fetchFlyOver} = require('./iss');
 fetchMyIp((error, ip)=>{
   if (error) {
     console.log('It didnt work!', error);
@@ -15,4 +15,12 @@ fetchGeoCords('99.250.18.66', (error, coords) => {
   }
 
   console.log('It worked! Returned Coords:' , coords);
+  fetchFlyOver(coords,(error, data)=>{
+    if(error){
+      console.log(error);
+      return;
+    }
+    console.log(data)
+  })
 });
+
