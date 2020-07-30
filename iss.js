@@ -38,4 +38,32 @@ fetchFlyOver=(cords, callback)=>{
   })
 }
 
-module.exports = { fetchMyIp, fetchGeoCords, fetchFlyOver};
+const nextISSTimesForMyLocation = (callback)=>{
+  //Grab IP
+  fetchMyIp((error, ip)=>{
+    if (error) {
+      console.log('It didnt work!', error);
+      return;
+    }
+    
+    //If no error grab geo cords from IP
+    fetchGeoCords(ip, (error, coords) => {
+      if (error) {
+        console.log("It didn't work!" , error);
+        return;
+      }
+    
+   //If no error grab ISS fly over times
+      fetchFlyOver(coords,(error, data)=>{
+        if(error){
+          console.log(error);
+          return;
+        }
+        callback(null, data);
+      })
+    });
+  });
+  
+}
+
+module.exports = { nextISSTimesForMyLocation};
