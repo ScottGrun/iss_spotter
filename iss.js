@@ -11,4 +11,20 @@ const fetchMyIp = (callback) => {
   });
 };
 
-module.exports = fetchMyIp;
+const fetchGeoCords = (ip, callback) => {
+  request(`https://ipvigilante.com/${ip}`, (err, res, body) => {
+    if (err || res.statusCode !== 200) {
+      return callback(err, null);
+    }
+
+    const data = JSON.parse(body);
+    const geoData = {
+      lat: data.data.latitude,
+      long: data.data.longitude,
+    };
+
+    callback(null, geoData);
+  });
+};
+
+module.exports = { fetchMyIp, fetchGeoCords };
